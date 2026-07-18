@@ -33,9 +33,6 @@ void main() {
 }
 `;
 
-const mapRange = (n: number, start: number, stop: number, start2: number, stop2: number) =>
-  ((n - start) / (stop - start)) * (stop2 - start2) + start2;
-
 class AsciiFilter {
   readonly domElement = document.createElement('div');
   private readonly pre = document.createElement('pre');
@@ -124,7 +121,6 @@ class CanvAscii {
   private readonly camera: THREE.PerspectiveCamera;
   private readonly scene = new THREE.Scene();
   private readonly renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-  private readonly mouse: { x: number; y: number };
   private geometry?: THREE.PlaneGeometry;
   private material?: THREE.ShaderMaterial;
   private texture?: THREE.CanvasTexture;
@@ -135,7 +131,6 @@ class CanvAscii {
   constructor(private readonly container: HTMLElement, private width: number, private height: number, private readonly text: string) {
     this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
     this.camera.position.z = 30;
-    this.mouse = { x: width / 2, y: height / 2 };
   }
 
   async init() {
@@ -148,16 +143,14 @@ class CanvAscii {
     this.geometry = new THREE.PlaneGeometry(planeHeight * (textCanvas.canvas.width / textCanvas.canvas.height), planeHeight, 36, 36);
     this.material = new THREE.ShaderMaterial({
       vertexShader, fragmentShader, transparent: true,
-      uniforms: { uTime: { value: 0 }, uTexture: { value: this.texture }, uEnableWaves: { value: 1 } },
+      uniforms: { uTime: { value: 0 }, uTexture: { value: this.texture }, uEnableWaves: { value: 0 } },
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
     this.renderer.setPixelRatio(1);
     this.renderer.setClearColor(0x000000, 0);
-    this.filter = new AsciiFilter(this.renderer, 5, '"Space Mono", Consolas, monospace');
+    this.filter = new AsciiFilter(this.renderer, 4, '"Space Mono", Consolas, monospace');
     this.container.appendChild(this.filter.domElement);
-    this.container.addEventListener('mousemove', this.onPointerMove);
-    this.container.addEventListener('touchmove', this.onPointerMove);
     this.setSize(this.width, this.height);
   }
 
@@ -169,23 +162,11 @@ class CanvAscii {
     this.filter?.setSize(width, height);
   }
 
-  private onPointerMove = (event: MouseEvent | TouchEvent) => {
-    const pointer = 'touches' in event ? event.touches[0] : event;
-    if (!pointer) return;
-    const bounds = this.container.getBoundingClientRect();
-    this.mouse.x = pointer.clientX - bounds.left;
-    this.mouse.y = pointer.clientY - bounds.top;
-  };
-
   start() {
     const render = () => {
       this.frame = requestAnimationFrame(render);
       if (!this.mesh || !this.material || !this.filter) return;
       this.material.uniforms.uTime.value = Math.sin(Date.now() * 0.001);
-      const x = mapRange(this.mouse.y, 0, this.height, 0.45, -0.45);
-      const y = mapRange(this.mouse.x, 0, this.width, -0.45, 0.45);
-      this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
-      this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
       this.filter.render(this.scene, this.camera);
     };
     render();
@@ -193,8 +174,6 @@ class CanvAscii {
 
   dispose() {
     cancelAnimationFrame(this.frame);
-    this.container.removeEventListener('mousemove', this.onPointerMove);
-    this.container.removeEventListener('touchmove', this.onPointerMove);
     this.filter?.domElement.remove();
     this.geometry?.dispose();
     this.material?.dispose();

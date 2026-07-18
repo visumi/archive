@@ -135,6 +135,8 @@ button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 5p
 @media (max-width: 520px) {
   .archive-stage__orb { width: 122vw; height: 122vw; transform: translate(-50%, -50%); }
   .archive-stage__content { min-height: 18rem; }
+  /* Mantém a mesma proporção do ASCII no hero de isumi-web (h-32). */
+  .archive-stage__mark { height: 8rem; }
   .archive-stage h1 { font-size: clamp(3.35rem, 16vw, 5.8rem); }
 }
 
