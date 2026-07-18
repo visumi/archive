@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.generated/
+private/originals/
+public/media/*
+!public/media/.gitkeep
+public/social/collections/*
+!public/social/collections/.gitkeep
+.env
+.DS_Store
+.codex-vite.out
+.codex-vite.err
