@@ -3,6 +3,7 @@ import AsciiLayer from './components/AsciiLayer';
 import BlurText from './components/BlurText';
 import Grainient from './components/Grainient';
 import Orb from './components/Orb';
+import { CollectionBrowser } from './components/CollectionBrowser';
 
 const HOME_EXIT_DURATION = 260;
 
@@ -114,9 +115,11 @@ export default function App() {
         </div>
       )}
 
+      {activePage === 1 && <CollectionBrowser />}
+
       <nav className="archive-stage__navigation" aria-label="Navegação entre seções">
         <button className={activePage === 0 ? 'is-active' : ''} type="button" aria-label="Ir para Archive" aria-current={activePage === 0 ? 'step' : undefined} onClick={() => navigateTo(0)} />
-        <button className={activePage === 1 ? 'is-active' : ''} type="button" aria-label="Ir para As Fotos Ficam" aria-current={activePage === 1 ? 'step' : undefined} onClick={() => navigateTo(1)} />
+        <button className={activePage === 1 ? 'is-active' : ''} type="button" aria-label="Ir para Coleções" aria-current={activePage === 1 ? 'step' : undefined} onClick={() => navigateTo(1)} />
         <button className={activePage === 2 ? 'is-active' : ''} type="button" aria-label="Ir para Primeira Coleção" aria-current={activePage === 2 ? 'step' : undefined} onClick={() => navigateTo(2)} />
       </nav>
     </main>

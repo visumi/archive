@@ -9,6 +9,9 @@ export function collectionFromPath(pathname: string): Collection | undefined {
 }
 
 export function getEntrySources(collection: Collection, photo: Photo) {
+  if (photo.file.startsWith('/')) {
+    return { avif: '', jpeg: '', fallback: photo.file };
+  }
   const base = `/media/${collection.slug}/${photo.id}`;
   return {
     avif: `${base}-720.avif 720w, ${base}-1440.avif 1440w, ${base}-2400.avif 2400w`,

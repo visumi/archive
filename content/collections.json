@@ -1,4 +1,91 @@
 {
-  "collections": []
+  "collections": [
+    {
+      "slug": "limiar",
+      "title": "LIMIAR",
+      "date": "2026",
+      "cover": "curva",
+      "entries": [
+        {
+          "id": "curva",
+          "file": "/mock/limiar.png",
+          "alt": "Curva de concreto marcada por um recorte de luz no chão.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "janelas",
+          "file": "/mock/eixo.png",
+          "alt": "Janelas estreitas iluminam uma parede escura e o piso úmido.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "escada",
+          "file": "/mock/vao.png",
+          "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
+          "width": 1024,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "slug": "eixo",
+      "title": "EIXO",
+      "date": "2025",
+      "cover": "janelas",
+      "entries": [
+        {
+          "id": "curva",
+          "file": "/mock/limiar.png",
+          "alt": "Curva de concreto marcada por um recorte de luz no chão.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "janelas",
+          "file": "/mock/eixo.png",
+          "alt": "Janelas estreitas iluminam uma parede escura e o piso úmido.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "escada",
+          "file": "/mock/vao.png",
+          "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
+          "width": 1024,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "slug": "vao",
+      "title": "VÃO",
+      "date": "2024",
+      "cover": "escada",
+      "entries": [
+        {
+          "id": "curva",
+          "file": "/mock/limiar.png",
+          "alt": "Curva de concreto marcada por um recorte de luz no chão.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "janelas",
+          "file": "/mock/eixo.png",
+          "alt": "Janelas estreitas iluminam uma parede escura e o piso úmido.",
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "id": "escada",
+          "file": "/mock/vao.png",
+          "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
+          "width": 1024,
+          "height": 1536
+        }
+      ]
+    }
+  ]
 }
-
