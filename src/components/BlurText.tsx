@@ -11,6 +11,7 @@ type BlurTextProps = {
   rootMargin?: string;
   easing?: Easing | Easing[];
   stepDuration?: number;
+  simple?: boolean;
 };
 
 const buildKeyframes = (
@@ -32,7 +33,8 @@ export default function BlurText({
   threshold = 0.1,
   rootMargin = '0px',
   easing = [0.16, 1, 0.3, 1],
-  stepDuration = 0.35
+  stepDuration = 0.35,
+  simple = false
 }: BlurTextProps) {
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
@@ -66,6 +68,20 @@ export default function BlurText({
     observer.observe(ref.current);
     return () => observer.disconnect();
   }, [rootMargin, threshold]);
+
+  if (simple) {
+    return (
+      <span ref={ref} className={`blur-text ${className}`.trim()} aria-label={text}>
+        <motion.span
+          initial={{ filter: 'blur(8px)', opacity: 0 }}
+          animate={inView ? { filter: 'blur(0px)', opacity: 1 } : { filter: 'blur(8px)', opacity: 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.42, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {text}
+        </motion.span>
+      </span>
+    );
+  }
 
   const transition: Transition = {
     duration: stepDuration * steps.length,

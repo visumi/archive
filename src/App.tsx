@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type TouchEvent, useEffect, useRef, useState } from 'react';
 import AsciiLayer from './components/AsciiLayer';
 import BlurText from './components/BlurText';
 import Grainient from './components/Grainient';
@@ -12,7 +12,7 @@ export default function App() {
   const [homeState, setHomeState] = useState<'visible' | 'leaving' | 'entering'>('visible');
   const activePageRef = useRef(0);
   const lastChange = useRef(0);
-  const touchStart = useRef<number | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const navigateTo = (page: number) => {
@@ -38,6 +38,23 @@ export default function App() {
     if (now - lastChange.current < 720) return;
     navigateTo(activePageRef.current + direction);
     lastChange.current = now;
+  };
+
+  const beginPageGesture = (event: TouchEvent<HTMLElement>) => {
+    const touch = event.changedTouches[0];
+    touchStart.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+  };
+
+  const endPageGesture = (event: TouchEvent<HTMLElement>) => {
+    const start = touchStart.current;
+    const end = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start || !end) return;
+
+    const deltaX = start.x - end.clientX;
+    const deltaY = start.y - end.clientY;
+    if (Math.abs(deltaX) < 42 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+    changePage(deltaX > 0 ? 1 : -1);
   };
 
   useEffect(() => () => {
@@ -77,13 +94,6 @@ export default function App() {
     <main
       className="archive-stage"
       aria-label="Archive"
-      onTouchStart={(event) => { touchStart.current = event.changedTouches[0]?.clientY ?? null; }}
-      onTouchEnd={(event) => {
-        const start = touchStart.current;
-        const end = event.changedTouches[0]?.clientY;
-        touchStart.current = null;
-        if (start !== null && end !== undefined && Math.abs(start - end) >= 42) changePage(start > end ? 1 : -1);
-      }}
     >
       {activePage === 0 && (
         <div className={`archive-stage__home is-${homeState}`}>
@@ -116,6 +126,13 @@ export default function App() {
       )}
 
       {activePage === 1 && <CollectionBrowser />}
+
+      <div
+        className="archive-stage__page-gesture"
+        aria-hidden="true"
+        onTouchStart={beginPageGesture}
+        onTouchEnd={endPageGesture}
+      />
 
       <nav className="archive-stage__navigation" aria-label="Navegação entre seções">
         <button className={activePage === 0 ? 'is-active' : ''} type="button" aria-label="Ir para Archive" aria-current={activePage === 0 ? 'step' : undefined} onClick={() => navigateTo(0)} />

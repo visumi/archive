@@ -427,8 +427,7 @@ class Media {
     this.program.uniforms.uOpacity.value = entryProgress;
     this.title.setOpacity(entryProgress);
     const targetX = this.x - scroll.current - this.extra;
-    const entryX = targetX - Math.min(this.viewport.width * 0.16, this.plane.scale.x * 0.75);
-    this.plane.position.x = entryX + (targetX - entryX) * entryProgress;
+    this.plane.position.x = targetX;
 
     const x = this.plane.position.x;
     const H = this.viewport.width / 2;
@@ -787,11 +786,10 @@ class App {
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
     if (this.medias) {
       const elapsed = performance.now() - this.entryStartedAt;
-      this.medias.forEach((media, index) => {
-        const duration = 90;
-        const delay = index * 115;
-        const rawProgress = this.reducedMotion ? 1 : Math.max(0, Math.min(1, (elapsed - delay) / duration));
-        const entryProgress = 1 - Math.pow(1 - rawProgress, 3);
+      this.medias.forEach((media) => {
+        const duration = 280;
+        const rawProgress = this.reducedMotion ? 1 : Math.max(0, Math.min(1, elapsed / duration));
+        const entryProgress = 1 - Math.pow(1 - rawProgress, 2);
         media.update(this.scroll, direction, entryProgress);
       });
     }

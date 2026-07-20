@@ -26,6 +26,27 @@
           "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
           "width": 1024,
           "height": 1536
+        },
+        {
+          "id": "curva-aberta",
+          "file": "/mock/limiar.png",
+          "alt": "Recorte horizontal de uma curva de concreto iluminada.",
+          "width": 1536,
+          "height": 1024
+        },
+        {
+          "id": "janelas-fechadas",
+          "file": "/mock/eixo.png",
+          "alt": "Detalhe quadrado de janelas estreitas sobre uma parede escura.",
+          "width": 1200,
+          "height": 1200
+        },
+        {
+          "id": "escada-aberta",
+          "file": "/mock/vao.png",
+          "alt": "Recorte horizontal de uma escada de concreto atravessada por luz.",
+          "width": 1536,
+          "height": 1024
         }
       ]
     },
@@ -55,6 +76,27 @@
           "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
           "width": 1024,
           "height": 1536
+        },
+        {
+          "id": "curva-aberta",
+          "file": "/mock/limiar.png",
+          "alt": "Recorte horizontal de uma curva de concreto iluminada.",
+          "width": 1536,
+          "height": 1024
+        },
+        {
+          "id": "janelas-fechadas",
+          "file": "/mock/eixo.png",
+          "alt": "Detalhe quadrado de janelas estreitas sobre uma parede escura.",
+          "width": 1200,
+          "height": 1200
+        },
+        {
+          "id": "escada-aberta",
+          "file": "/mock/vao.png",
+          "alt": "Recorte horizontal de uma escada de concreto atravessada por luz.",
+          "width": 1536,
+          "height": 1024
         }
       ]
     },
@@ -84,6 +126,27 @@
           "alt": "Escada de concreto atravessada por uma faixa diagonal de luz.",
           "width": 1024,
           "height": 1536
+        },
+        {
+          "id": "curva-aberta",
+          "file": "/mock/limiar.png",
+          "alt": "Recorte horizontal de uma curva de concreto iluminada.",
+          "width": 1536,
+          "height": 1024
+        },
+        {
+          "id": "janelas-fechadas",
+          "file": "/mock/eixo.png",
+          "alt": "Detalhe quadrado de janelas estreitas sobre uma parede escura.",
+          "width": 1200,
+          "height": 1200
+        },
+        {
+          "id": "escada-aberta",
+          "file": "/mock/vao.png",
+          "alt": "Recorte horizontal de uma escada de concreto atravessada por luz.",
+          "width": 1536,
+          "height": 1024
         }
       ]
     }

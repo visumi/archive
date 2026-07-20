@@ -6,6 +6,7 @@ import CircularGallery, { type CircularGalleryItem } from './CircularGallery';
 import { DomeGallery, type DomeGalleryImage } from './DomeGallery';
 import LightRays from './LightRays';
 import { Lightbox } from './Lightbox';
+import { Masonry } from './Masonry';
 
 function coverFor(collection: Collection) {
   return collection.entries.find((photo) => photo.id === collection.cover) ?? collection.entries[0];
@@ -20,13 +21,6 @@ function collectionItems(collections: Collection[]): CircularGalleryItem[] {
       text: `${collection.title}\n${collection.date.match(/\b\d{4}\b/)?.[0] ?? collection.date}`,
     }];
   });
-}
-
-function photoItems(collection: Collection): CircularGalleryItem[] {
-  return collection.entries.map((photo, index) => ({
-    image: getEntrySources(collection, photo).fallback,
-    text: (index + 1).toString().padStart(2, '0'),
-  }));
 }
 
 function domeGalleryItems(items: CircularGalleryItem[]): DomeGalleryImage[] {
@@ -78,27 +72,36 @@ export function CollectionBrowser() {
     );
   }
 
-  const photos = photoItems(collection);
+  const collectionYear = collection.date.match(/\b\d{4}\b/)?.[0] ?? collection.date;
+  const masonryItems = collection.entries.map((photo) => ({
+    id: photo.id,
+    img: getEntrySources(collection, photo).fallback,
+    url: `#${photo.id}`,
+    height: Math.round(260 * (photo.height / photo.width)),
+    alt: photo.alt,
+  }));
   return (
     <section className="collection-browser collection-browser--detail" aria-label={`Galeria ${collection.title}`}>
       <header className="collection-browser__header">
-        <button className="collection-browser__back" type="button" onClick={() => setCollection(null)}>Voltar</button>
-        <div><h2>{collection.title}</h2><p>{collection.date}</p></div>
-        <ArchiveMark />
+        <button className="collection-browser__back" type="button" aria-label="Voltar às coleções" onClick={() => setCollection(null)}>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m14.5 5-7 7 7 7" /></svg>
+        </button>
+        <div className="collection-browser__identity">
+          <ArchiveMark />
+          <h2>{collection.title}</h2>
+          <p>{collectionYear}</p>
+        </div>
       </header>
       <LightRays className="collection-browser__rays" raysOrigin="top-center" raysColor="#f4f4f5" raysSpeed={0.45} lightSpread={0.84} rayLength={1.32} fadeDistance={0.98} saturation={0} followMouse={false} mouseInfluence={0} noiseAmount={0} distortion={0} />
-      {isMobileGallery ? (
-        <DomeGallery images={domeGalleryItems(photos)} onSelect={(index) => setSelectedPhoto(collection.entries[index] ?? null)} />
-      ) : (
-        <CircularGallery
-          items={photos}
-          bend={3}
-          borderRadius={0.05}
-          scrollEase={0.05}
-          wheelEnabled={false}
-          onSelect={(index) => setSelectedPhoto(collection.entries[index] ?? null)}
+      <div className="collection-browser__masonry" aria-label={`Fotografias de ${collection.title}`}>
+        <Masonry
+          items={masonryItems}
+          animateFrom="bottom"
+          blurToFocus
+          colorShiftOnHover={false}
+          onSelect={(item) => setSelectedPhoto(collection.entries.find((photo) => photo.id === item.id) ?? null)}
         />
-      )}
+      </div>
       {selectedPhoto && <Lightbox collection={collection} photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} onSelect={setSelectedPhoto} />}
     </section>
   );
